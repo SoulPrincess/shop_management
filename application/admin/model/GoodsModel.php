@@ -4,7 +4,7 @@ namespace app\admin\model;
 
 use think\Model;
 
-class GoodsModel extends Model
+class GoodsModel extends BaseModel
 {
     protected $table='goods';
     //更新数据

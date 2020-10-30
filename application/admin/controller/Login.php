@@ -4,7 +4,6 @@ namespace app\admin\controller;
 
 use app\admin\model\AdminModel;
 use app\admin\validate\LoginValidate;
-use think\App;
 use think\captcha\Captcha;
 use think\Controller;
 use think\Request;
@@ -59,11 +58,13 @@ class Login extends Controller
         }else{
             return ['code'=>0,'msg'=>'账户或密码错误！'];
         }
+
     }
     public function logout()
     {
         session('aid',null);
         session('aname',null);
+        session('routes',null);
         return ['code'=>1,'msg'=>'退出成功'];
     }
 

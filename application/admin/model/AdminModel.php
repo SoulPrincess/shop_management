@@ -2,9 +2,9 @@
 
 namespace app\admin\model;
 
-use think\Model;
+use think\facade\Hook;
 
-class AdminModel extends Model
+class AdminModel extends BaseModel
 {
     protected $table='admin';
     //登录
@@ -18,6 +18,8 @@ class AdminModel extends Model
         }
         session('aid',$info['id']);
         session('aname',$info['username']);
+        $param['id']=$info['id'];
+        Hook::exec('app\admin\behavior\Rbac',$param);
         return true;
     }
     //状态属性
@@ -29,14 +31,21 @@ class AdminModel extends Model
             return '禁用';
         }
     }
-    //更新数据
-    public function _update($data){
-        if(isset($data['id'])){
-            //修改
-            return $this->save($data,['id'=>$data['id']]);
-        }else{
-            //添加
-            return $this->save($data);
-        }
+    //密码加密保存
+    public function setPasswordAttr($V)
+    {
+        return md5($V);
     }
+    //角色属性
+    public function setRoleIdAttr($value)
+    {
+        return implode(',',$value);
+    }
+//    public function getRoleIdAttr($value)
+//    {
+//        if(!empty($value)){
+//            return explode(',',$value);
+//        }
+//
+//    }
 }

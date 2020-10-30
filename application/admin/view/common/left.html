@@ -57,16 +57,31 @@
                 </ul>
             </dd>
         </dl>
+
+        <!--<dl id="menu-admin">-->
+            <!--<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+            <!--<dd>-->
+                <!--<ul>-->
+                    <!--<li><a href="{:url('Role/index')}" title="角色管理">角色管理</a></li>-->
+                    <!--<li><a href="{:url('Permission/index')}" title="权限管理">权限管理</a></li>-->
+                    <!--<li><a href="{:url('Admin/index')}" title="管理员列表">管理员列表</a></li>-->
+                <!--</ul>-->
+            <!--</dd>-->
+        <!--</dl>-->
+        {volist name='routes' id='vo'}
         <dl id="menu-admin">
-            <dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe62d;</i> {$vo.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="admin-role.html" title="角色管理">角色管理</a></li>
-                    <li><a href="admin-permission.html" title="权限管理">权限管理</a></li>
-                    <li><a href="{:url('Admin/index')}" title="管理员列表">管理员列表</a></li>
+                    {volist name='$vo.child' id='vo1'}
+                    {if condition="$vo1.type == 1"}
+                    <li><a href="{:url($vo1.url)}" title="角色管理">{$vo1.name}</a></li>
+                    {/if}
+                    {/volist}
                 </ul>
             </dd>
         </dl>
+        {/volist}
         <dl id="menu-tongji">
             <dt><i class="Hui-iconfont">&#xe61a;</i> 系统统计<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>

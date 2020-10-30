@@ -2,13 +2,13 @@
 
 namespace app\admin\controller;
 
-use app\admin\model\AdminModel;
+use app\admin\model\PermissionModel;
 use app\admin\model\RoleModel;
-use app\admin\validate\AdminValidate;
+use app\admin\validate\RoleValidate;
 use think\Controller;
 use think\Request;
 
-class Admin extends Base
+class Role extends Base
 {
     /**
      * 显示资源列表
@@ -17,14 +17,8 @@ class Admin extends Base
      */
     public function index()
     {
-        $db=new AdminModel();
+        $db=new RoleModel();
         $list=$db->order('create_time desc')->paginate();
-        foreach($list as $k=>$v){
-            $list_role=(new RoleModel())->where('id','in',$v['role_id'])->field('name')->select();
-            $arr1=json_decode($list_role,true);
-            $arr = array_map('array_shift',$arr1);
-            $v['role_name']=implode(',',$arr);
-        }
         $this->assign('list',$list);
         return $this->fetch();
     }
@@ -36,9 +30,10 @@ class Admin extends Base
      */
     public function create()
     {
-        $role=new RoleModel();
-        $list=$role->field('id,name')->where('id','>',1)->select();
-        $this->assign('list',$list);
+        $db=new PermissionModel();
+        $list=$db->select();
+        $cate=$db->recursion($list,0);
+        $this->assign('permission_list',$cate);
         return $this->fetch();
     }
 
@@ -51,11 +46,12 @@ class Admin extends Base
     public function save(Request $request)
     {
         $data=$request->param();
-        $validate=new AdminValidate();
+        $data['perid']=implode(',',$data['perid']);
+        $validate=new RoleValidate();
         if(!$validate->check($data)){
             return ['code'=>0,'msg'=>$validate->getError()];
         }
-        $db=new AdminModel();
+        $db=new RoleModel();
         $res=$db->_update($data);
         if($res){
             return ['code'=>1,'msg'=>'操作成功'];
@@ -83,11 +79,12 @@ class Admin extends Base
      */
     public function edit(Request $request)
     {
-        $role=new RoleModel();
-        $list=$role->field('id,name')->where('id','>',1)->select();
-        $this->assign('list',$list);
+        $db=new PermissionModel();
+        $list=$db->select();
+        $cate=$db->recursion($list,0);
+        $this->assign('permission_list',$cate);
         $id=$request->param('id');
-        $db=new AdminModel();
+        $db=new RoleModel();
         $info=$db->where('id',$id)->find();
         $this->assign('info',$info);
         return $this->fetch();
@@ -114,7 +111,7 @@ class Admin extends Base
     public function delete(Request $request)
     {
         $id=$request->param('id');
-        $db=new AdminModel();
+        $db=new RoleModel();
         $res=$db->where('id',$id)->delete();
         if($res){
             return ['code'=>1,'msg'=>'删除成功'];

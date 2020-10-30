@@ -5,15 +5,16 @@
         <span class="c-gray en">&gt;</span>
         管理员管理
         <span class="c-gray en">&gt;</span>
-        添加管理员
+        编辑管理员
         <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
 <article class="cl pd-20">
     <form class="form form-horizontal" action="{:url('save')}">
+        <input type="hidden" value="{$info.id}" name="id">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value=""  name="username">
+                <input type="text" class="input-text" value="{$info.username}"  name="username">
             </div>
         </div>
         <div class="row cl">
@@ -22,48 +23,19 @@
                 <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" name="password">
             </div>
         </div>
-        <!--<div class="row cl">-->
-            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>-->
-            <!--<div class="formControls col-xs-8 col-sm-9">-->
-                <!--<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">-->
-            <!--</div>-->
-        <!--</div>-->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">状态：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="status" type="radio" value="1" checked>
+                    <input name="status" type="radio" value="1" {$info.status=='启用'?'checked':''} >
                     <label >启用</label>
                 </div>
                 <div class="radio-box">
-                    <input type="radio"  value="0" name="status">
+                    <input type="radio"  value="0" name="status" {$info.status=='禁用'?'checked':''}>
                     <label >禁止</label>
                 </div>
             </div>
         </div>
-        <!--<div class="row cl">-->
-            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>-->
-            <!--<div class="formControls col-xs-8 col-sm-9">-->
-                <!--<input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="row cl">-->
-            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>-->
-            <!--<div class="formControls col-xs-8 col-sm-9">-->
-                <!--<input type="text" class="input-text" placeholder="@" name="email" id="email">-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="row cl">-->
-            <!--<label class="form-label col-xs-4 col-sm-3">角色：</label>-->
-            <!--<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">-->
-				<!--<select class="select" name="role_id" size="1">-->
-					<!--<option value="0">请选择角色</option>-->
-                    <!--{volist name='list' id='vo'}-->
-					<!--<option value="{$vo.id}">{$vo.name}</option>-->
-                    <!--{/volist}-->
-				<!--</select>-->
-				<!--</span> </div>-->
-        <!--</div>-->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">网站角色：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -71,8 +43,8 @@
                     <dd style="padding-left: 5px;">
                         {volist name='list' id='vo'}
                         <label class="">
-                        <input type="checkbox" value="{$vo.id}" name="role_id[]" id="user-Character-0-0-0">
-                        {$vo.name}</label>
+                            <input type="checkbox" value="{$vo.id}" name="role_id[]" {in name="vo.id" value="$info['role_id']"}checked="true"{/in}>
+                            {$vo.name}</label>
                         {/volist}
                     </dd>
                 </dl>

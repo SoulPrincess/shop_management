@@ -1,0 +1,100 @@
+{extend name="layout" /}
+{block name='right'}
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+        <span class="c-gray en">&gt;</span>
+        权限管理
+        <span class="c-gray en">&gt;</span>
+        编辑权限
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+    </nav>
+<article class="cl pd-20">
+    <form class="form form-horizontal" action="{:url('save')}">
+        <input type="hidden" value="{$info.id}" name="id">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>规则名称：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <input type="text" class="input-text" value="{$info.name}"  name="name">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">pid：</label>
+            <div class="formControls col-xs-8 col-sm-4"> <span class="select-box" style="width:150px;">
+				<select class="select" name="pid" size="1">
+					<option value="0">顶级分类</option>
+                    {volist name='list' id='vo'}
+                      {if condition="$vo.id eq $info['pid']"}
+                            <option value="{$vo.id}" selected>{$vo.name}</option>
+                        {else /}
+                            <option value="{$vo.id}" >{$vo.name}</option>
+                        {/if}
+                    {/volist}
+				</select>
+				</span> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>url：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <input type="text" class="input-text" value="{$info.url}"  name="url">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">状态：</label>
+            <div class="formControls col-xs-8 col-sm-4 skin-minimal">
+                <div class="radio-box">
+                    <input name="type" type="radio" value="1"  {$info.type=='1'?'checked':''} >
+                    <label >显示</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio"  value="0" name="type" {$info.type=='0'?'checked':''} >
+                    <label >隐藏</label>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row cl">-->
+            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>-->
+            <!--<div class="formControls col-xs-8 col-sm-9">-->
+                <!--<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row cl">-->
+            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>-->
+            <!--<div class="formControls col-xs-8 col-sm-9 skin-minimal">-->
+                <!--<div class="radio-box">-->
+                    <!--<input name="sex" type="radio" id="sex-1" checked>-->
+                    <!--<label for="sex-1">男</label>-->
+                <!--</div>-->
+                <!--<div class="radio-box">-->
+                    <!--<input type="radio" id="sex-2" name="sex">-->
+                    <!--<label for="sex-2">女</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row cl">-->
+            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>-->
+            <!--<div class="formControls col-xs-8 col-sm-9">-->
+                <!--<input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row cl">-->
+            <!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>-->
+            <!--<div class="formControls col-xs-8 col-sm-9">-->
+                <!--<input type="text" class="input-text" placeholder="@" name="email" id="email">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row cl">-->
+            <!--<label class="form-label col-xs-4 col-sm-3">备注：</label>-->
+            <!--<div class="formControls col-xs-8 col-sm-9">-->
+                <!--<textarea name="" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)"></textarea>-->
+                <!--<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+</section>
+{/block}
