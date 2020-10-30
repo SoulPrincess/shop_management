@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-10-23 17:36:35
+Date: 2020-10-30 11:00:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,13 +26,34 @@ CREATE TABLE `admin` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `role_id` varchar(255) DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='后台管理员表';
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='后台管理员表';
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1603179320', '1603179320', '1');
+INSERT INTO `admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1603179320', '1603179320', '1', '1,3');
+INSERT INTO `admin` VALUES ('4', 'dsd', 'e10adc3949ba59abbe56e057f20f883e', '1603690808', '1603878841', '1', '4');
+INSERT INTO `admin` VALUES ('5', '张三', '96e79218965eb72c92a549dd5a330112', '1603696812', '1603878536', '0', '3,5');
+INSERT INTO `admin` VALUES ('7', '1111', 'e10adc3949ba59abbe56e057f20f883e', '1603866321', '1603878636', '1', '3,4');
+
+-- ----------------------------
+-- Table structure for `admins_roles`
+-- ----------------------------
+DROP TABLE IF EXISTS `admins_roles`;
+CREATE TABLE `admins_roles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `aid` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员角色关联表';
+
+-- ----------------------------
+-- Records of admins_roles
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `category`
@@ -85,7 +106,51 @@ CREATE TABLE `goods` (
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES ('1', '顶顶顶', '0', '2.00', '2', '/uploads/20201021\\5c7c0799718c9ff7f0f36ab19a6a4c7b.png', '<p>&lt;p&gt;而且我顶起定期的&lt;/p&gt;</p>', '额企鹅企鹅', '1', '1', '1603261526', '1603269066', '1');
+INSERT INTO `goods` VALUES ('1', '顶顶顶', '5', '2.00', '2', '/uploads/20201021\\5c7c0799718c9ff7f0f36ab19a6a4c7b.png', '<p>&lt;p&gt;&amp;lt;p&amp;gt;而且我顶起定期的&amp;lt;/p&amp;gt;&lt;/p&gt;</p>', '额企鹅企鹅', '1', '1', '1603261526', '1603698423', '1');
+
+-- ----------------------------
+-- Table structure for `permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `type` tinyint(1) DEFAULT NULL COMMENT '0  不显示  1显示',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of permission
+-- ----------------------------
+INSERT INTO `permission` VALUES ('1', '管理员管理', '0', '', '1603706155', '1603943082', '1');
+INSERT INTO `permission` VALUES ('2', '管理员列表', '1', 'admin/index', '1603764329', '1603943106', '1');
+INSERT INTO `permission` VALUES ('3', '角色管理', '1', 'role/index', '1603770659', '1603943133', '1');
+INSERT INTO `permission` VALUES ('4', '权限管理', '1', 'permission/index', '1603770682', '1603943173', '1');
+
+-- ----------------------------
+-- Table structure for `role`
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `perid` varchar(255) DEFAULT NULL COMMENT '权限拼接',
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', '超级管理员', '1,2,3,4', '1603692482', '1603696426');
+INSERT INTO `role` VALUES ('3', '普通管理员', '1,3,4', '1603696435', '1603786258');
+INSERT INTO `role` VALUES ('4', '编辑管理员', '2,1', '1603696446', '1603786080');
+INSERT INTO `role` VALUES ('5', '删除管理员', '2,1,3,4', '1603783979', '1603786690');
 
 -- ----------------------------
 -- Table structure for `user`
